@@ -1,0 +1,58 @@
+{% extends "base.html" %}  {% block content%}
+<div class="titrePage" id="titre">
+</div>
+  {% for faction in armies %}
+<div class="faction" id="{{faction['Nom_normalise']}}">
+  <h2 class="faction-titre"> {{faction["Nom"]}}</h2>
+  <div class="contenu">
+      {% for regles in faction['Regle_Faction'] %}
+    <h3>{{regles['Nom']}}</h3>
+    <span>{{ regles['Description'] }}</span>
+      {% endfor %}
+    <div class="profils">{% for Profil in faction['Profils'] %}
+        <div class="{{faction['Profils'][Profil][0]['Nom']}}">
+          <div class="combattant">{{faction['Profils'][Profil][0]['Nom']}}</div>
+          <div class="liste pres">
+            <div class="label type">Type</div>
+            <div class="label rang">Rang</div>
+            <div class="label carac">M</div>
+            <div class="label carac">E</div>
+            <div class="label carac">V</div>
+            <div class="label carac">C</div>
+          </div>
+          <div class="liste donnees">
+            <div class="element type">{{faction['Profils'][Profil][0]['Type']}}</div>
+            <div class="element rang valeur">{{faction['Profils'][Profil][0]['Rang']}}</div>
+            <div class="element carac valeur">{{faction['Profils'][Profil][0]['M']}}</div>
+            <div class="element carac valeur">{{faction['Profils'][Profil][0]['E']}}</div>
+            <div class="element carac valeur">{{faction['Profils'][Profil][0]['V']}}</div>
+            <div class="element carac valeur">{{faction['Profils'][Profil][0]['C']}}</div>
+          </div>
+{% if faction['Profils'][Profil][1] %}{% set test_len_regle = faction['Profils'][Profil][1]|length %}
+          <div class="regle">Règles spéciales : {% for regles_sp in faction['Profils'][Profil][1] %}
+            <div class="profil_regle_sp" onmouseover="mesReglesIn('{{Profil}}.{{regles_sp['Nom']}}', {{regles_sp['Nom']|length}}, {{loop.index}})" onmouseout="mesReglesOut('{{Profil}}.{{regles_sp['Nom']}}')">{{regles_sp['Nom']}}{% if regles_sp['Precision'] %} ({{regles_sp['Precision']}}){% endif %}</div>{% if test_len_regle > loop.index %} , {% endif %}{% endfor %}
+            <div class="liste_desc_regles_sp">{% for regles_sp in faction['Profils'][Profil][1] %}<div class="regle_description" id="{{Profil}}.{{regles_sp['Nom']}}">{{regles_sp['Description']}} </div>{% endfor %}</div></div> 
+          {% endif %}
+          <div class="arme enclosure">
+            <div class ="arme armep">
+              <div class= "label type">Nom</div>
+              <div class= "label portee">L</div>
+              <div class= "label carac">R</div>
+              <div class= "label carac">P</div>
+            </div>          
+            {% for armes in faction['Profils'][Profil][2] %}
+            <div class ="arme armed">
+              <div class={% if armes['Couleur'] == "Bleu" %}"element type bleue"{% elif armes['Couleur'] == "Rouge" %}"element type rouge"{% else %}"element type"{% endif %}>{{armes['Nom']}}</div>
+              <div class={% if armes['Couleur'] == "Bleu" %}"element portee bleue"{% elif armes['Couleur'] == "Rouge" %}"element portee rouge"{% else %}"element portee"{% endif %}>{% if armes['L'] == None %}{{"--"}}{% else %}{{armes['L']}}{% endif %}</div>
+              <div class={% if armes['Couleur'] == "Bleu" %}"element carac bleue"{% elif armes['Couleur'] == "Rouge" %}"element carac rouge"{% else %}"element carac"{% endif %}>{%if armes ['R'] == None%}{{"--"}}{% else %}{{armes['R']}}{% endif %}</div>
+              <div class={% if armes['Couleur'] == "Bleu" %}"element carac bleue"{% elif armes['Couleur'] == "Rouge" %}"element carac rouge"{% else %}"element carac"{% endif %}>{{armes['P']}}</div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>{% endfor %}
+    </div>
+  </div>
+</div>
+  {% endfor %}
+{{profildata}}
+{% endblock %}
