@@ -111,14 +111,14 @@ for faction in armies_cursor.fetchall():
   ### Règles de faction  ###
   regles_sp_test=[{"Nom":"Règle 1", "Description":"C'est la règle 1"},{"Nom":"Règle 2","Description":"C'estla lrègle 2"}]
   faction_donnees.append(regles_sp_test)
-#  faction_donnees.append(regles_sp(faction[0]))
+  faction_donnees.append(regles_faction(str(faction[0])))
   ### Liste des profils  ###
   faction_donnees.append(liste_profils)
   armies.append(dict(zip(col_names, faction_donnees)))
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-test = regles_faction("1")
+#test = regles_faction("1")
 
 @app.route('/')
 def index():
