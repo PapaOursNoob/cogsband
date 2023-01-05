@@ -11,7 +11,7 @@ test=[]
 
 #def soldats(faction_id):
 
-def regles_sp(faction_id):
+def regles_sp(faction_id,connection):
   #ajout des règles spéciales à chaque faction
   faction_regle_cursor = connection.execute(
     "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
@@ -27,7 +27,7 @@ def regles_sp(faction_id):
   return faction_regle
 
 # Ajout des règles spéciales pour chaque profil 
-def regles_soldat(soldat_id):
+def regles_soldat(soldat_id,connection):
   soldat_regle_cursor = connection.execute(
     "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
     str(soldat_id))
@@ -108,7 +108,7 @@ for faction in armies_cursor.fetchall():
   faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
   ### Règles de faction  ###
   regles_sp_test=["test","test"]
-  faction_donnees.append(regles_sp_test)
+  #faction_donnees.append(regles_sp_test)
 #  faction_donnees.append(regles_sp(faction[0]))
   ### Liste des profils  ###
   faction_donnees.append(liste_profils)
@@ -122,7 +122,7 @@ test= liste_armes_combattants
 def index():
     return render_template('Presentation.html',
                            armies=armies,
-                           profildata=regles_sp(0))
+                           profildata=regles_sp(0,connection))
 
 
 @app.route('/Equipements')
