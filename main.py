@@ -58,6 +58,7 @@ for faction in armies_cursor.fetchall():
   #initialisation de la liste des infos de la faction analysée
   faction_donnees = []
   faction_donnees .append(faction[1])
+
   ###############################################
   #ajout de la liste des profils à chaque faction"""
   liste_nom_profils = connection.execute(
@@ -108,8 +109,8 @@ for faction in armies_cursor.fetchall():
   ###  Nom normalisé  ###
   faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
   ### Règles de faction  ###
-  regles_sp_test=["test","test"]
-  #faction_donnees.append(regles_sp_test)
+  regles_sp_test=[{"Nom":"Règle 1", "Description":"C'est la règle 1"},{"Nom":"Règle 2","Description":"C'estla lrègle 2"}]
+  faction_donnees.append(regles_sp_test)
 #  faction_donnees.append(regles_sp(faction[0]))
   ### Liste des profils  ###
   faction_donnees.append(liste_profils)
