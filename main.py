@@ -12,8 +12,8 @@ test=[]
 
 #def soldats(faction_id):
 
+# Regles spéciales de facion
 def regles_faction(faction_id : str):
-  #ajout des règles spéciales à chaque faction
   faction_regle_cursor = curseur.execute(
     "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
     faction_id)
@@ -27,7 +27,19 @@ def regles_faction(faction_id : str):
       faction_regle.append(faction_regle_description)
   return faction_regle
 
-# Ajout des règles spéciales pour chaque profil 
+
+# Caractéristique de profil
+def profil_soldat(soldat_id : str):
+  #carac du profil
+  profil_cursor = curseur.execute(
+    "SELECT ID,Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
+    profil)
+  profil_col_names = [col[0] for col in profil_cursor.description]
+  #suppression de la colonne ID
+  del profil_col_names[0]
+  profil_row_data = [str(x) for x in profil_cursor.fetchone()]  
+
+# Règles spéciales de profil 
 def regles_soldat(soldat_id : str):
   soldat_regle_cursor = curseur.execute(
     "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
@@ -36,8 +48,22 @@ def regles_soldat(soldat_id : str):
   liste_soldat_regle = []
   for soldat_regle in soldat_regle_cursor.fetchall():
     soldat_regle_data = list(soldat_regle)
-    liste_soldat_regle.append(dict(zip(soldat_regle_col_names,regles_sp_data)))
+    liste_soldat_regle.append(dict(zip(soldat_regle_col_names,soldat_regle_data)))
   return liste_soldat_regle
+
+# Armes de profil
+def armes_soldat(soldat_id : str):
+  # Ajout des armes pour chaque profil     
+  soldats_armes_cursor = curseur.execute(
+    "SELECT Armes.Nom, Armes.L, Armes.R, Armes.P, Combattant_Armes.Couleur FROM Armes, Combattant_Armes WHERE Combattant_Armes.Combattant_ID=(?) AND Combattant_Armes.ARMES_ID=Armes.ID ORDER BY Combattant_Armes.Couleur",
+    profil)
+  #Nom des colonnes des armes
+  soldats_armes_col_names = [col[0] for col in soldats_armes_cursor.description]
+  #initialisation de la liste des armes pour chaque combattant
+  liste_armes_soldats = []
+  for soldat_armes in soldats_armes_cursor.fetchall():
+    soldat_armes_data = list(soldat_armes)
+    liste_armes_soldats.append(dict(zip(soldats_armes_col_names,soldat_armes_data)))
 
 #récupération liste des factions
 armies_cursor = curseur.execute(
@@ -69,6 +95,8 @@ for faction in armies_cursor.fetchall():
   liste_profils = {}
   # Parcours de la liste des profils pour la faction analysée
   for profil in liste_nom_profils:
+
+      #carac du profil
       profil_cursor = connection.execute(
         "SELECT ID,Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
         profil)
@@ -76,17 +104,7 @@ for faction in armies_cursor.fetchall():
       #suppression de la colonne ID
       del profil_col_names[0]
       profil_row_data = [str(x) for x in profil_cursor.fetchone()]
-    
-      # Ajout des règles spéciales pour chaque profil     
-      regle_sp_cursor = connection.execute(
-        "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND    Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
-        profil)
-      regles_sp_col_names = [colr[0] for colr in regle_sp_cursor.description]
-      liste_regles_sp = []
-      for regles_sp in regle_sp_cursor.fetchall():
-        regles_sp_data = list(regles_sp)
-        liste_regles_sp.append(dict(zip(regles_sp_col_names,regles_sp_data)))
-        
+            
       # Ajout des armes pour chaque profil     
       combattants_armes_cursor = connection.execute(
         "SELECT Armes.Nom, Armes.L, Armes.R, Armes.P, Combattant_Armes.Couleur FROM Armes, Combattant_Armes WHERE Combattant_Armes.Combattant_ID=(?) AND Combattant_Armes.ARMES_ID=Armes.ID ORDER BY Combattant_Armes.Couleur",
@@ -98,14 +116,18 @@ for faction in armies_cursor.fetchall():
       for combattant_armes in combattants_armes_cursor.fetchall():
         combattant_armes_data = list(combattant_armes)
         liste_armes_combattants.append(dict(zip(combattants_armes_col_names,combattant_armes_data)))
+
       #suppression de l'ID avant d'intégrer les données au profil
       del profil_row_data[0] 
+
       # création du dictionnaire de caractéristique
       profil_description = [dict(zip(profil_col_names, profil_row_data))]
-#      profil_description.append(liste_regles_sp)
+      # ajout des listes de règle de spéciales de chaaque profil
       regles_soldat_liste = regles_soldat(profil)
       profil_description.append(liste_regles_sp)
+      # ajout des listes d'armes
       profil_description.append(liste_armes_combattants)
+      # compilation des profils de la faction à chaque passage de boucle
       liste_profils[profil[0]] = profil_description
     
   #Construction de la structure des données de toutes les factions
