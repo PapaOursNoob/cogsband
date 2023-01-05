@@ -9,6 +9,24 @@ connection = sqlite3.connect("Database/COGS.sqlite")
 #initialisation de la donnée de debug
 test=[]
 
+#def soldats(faction_id):
+
+def regles_sp(faction_id):
+  #ajout des règles spéciales à chaque faction
+  faction_regle_cursor = connection.execute(
+    "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
+    str(faction_id))
+    #initialisation des noms de colonnes pour les règles spéciales
+  faction_regle_col = [col[0] for col in faction_regle_cursor.description]
+  faction_regle_liste = faction_regle_cursor.fetchall()
+  faction_regle = []
+  # Ajout des règles de faction
+  for regle in faction_regle_liste:
+      faction_regle_description = dict(zip(faction_regle_col, regle))
+      faction_regle.append(faction_regle_description)
+  return faction_regle
+
+
 #récupération liste des factions
 armies_cursor = connection.execute(
   "SELECT * FROM Faction")
@@ -31,7 +49,7 @@ for faction in armies_cursor.fetchall():
     faction_donnees .append(faction[1])
     #############################################
     #ajout des règles spéciales à chaque faction
-    faction_regle_cursor = connection.execute(
+"""     faction_regle_cursor = connection.execute(
         "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
         str(faction[0]))
     #initialisation des noms de colonnes pour les règles spéciales
@@ -42,7 +60,7 @@ for faction in armies_cursor.fetchall():
     for regle in faction_regle_liste:
         faction_regle_description = dict(zip(faction_regle_col, regle))
         faction_regle.append(faction_regle_description)
-
+ """
     ###############################################
     #ajout de la liste des profils à chaque faction
     liste_nom_profils = connection.execute(
@@ -93,7 +111,7 @@ for faction in armies_cursor.fetchall():
     ###  Nom normalisé  ###
     faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
     ### Règles de faction  ###
-    faction_donnees.append(faction_regle)
+    faction_donnees.append(regles_sp(faction[0]))
     ### Liste des profils  ###
     faction_donnees.append(liste_profils)
     armies.append(dict(zip(col_names, faction_donnees)))
