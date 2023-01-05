@@ -28,15 +28,16 @@ def regles_faction(faction_id : str):
   return faction_regle
 
 # Ajout des règles spéciales pour chaque profil 
-def regles_soldat(soldat_id):
+def regles_soldat(soldat_id : str):
   soldat_regle_cursor = curseur.execute(
     "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
-    str(soldat_id))
+    soldat_id)
   soldat_regle_col_names = [colr[0] for colr in soldat_regle_cursor.description]
   liste_soldat_regle = []
   for soldat_regle in soldat_regle_cursor.fetchall():
     soldat_regle_data = list(soldat_regle)
     liste_soldat_regle.append(dict(zip(soldat_regle_col_names,regles_sp_data)))
+  return liste_soldat_regle
 
 #récupération liste des factions
 armies_cursor = curseur.execute(
@@ -101,6 +102,8 @@ for faction in armies_cursor.fetchall():
       del profil_row_data[0] 
       # création du dictionnaire de caractéristique
       profil_description = [dict(zip(profil_col_names, profil_row_data))]
+#      profil_description.append(liste_regles_sp)
+      regles_soldat_liste = regles_soldat(str(profil))
       profil_description.append(liste_regles_sp)
       profil_description.append(liste_armes_combattants)
       liste_profils[profil[0]] = profil_description
@@ -109,10 +112,8 @@ for faction in armies_cursor.fetchall():
   ###  Nom normalisé  ###
   faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
   ### Règles de faction  ###
-  #regles_sp_test=[{"Nom":"Règle 1", "Description":"C'est la règle 1"},{"Nom":"Règle 2","Description":"C'estla lrègle 2"}]
-  regles_sp_test=regles_faction(str(faction[0]))
-  faction_donnees.append(regles_sp_test)
-  #faction_donnees.append(regles_faction(str(faction[0])))
+  regles_faction_liste=regles_faction(str(faction[0]))
+  faction_donnees.append(regles_faction_liste)
   ### Liste des profils  ###
   faction_donnees.append(liste_profils)
   armies.append(dict(zip(col_names, faction_donnees)))
