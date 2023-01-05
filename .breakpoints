@@ -1,0 +1,28 @@
+{
+  "files": {
+    "Database/Transcendance.py": [
+      {
+        "id": "6a3f634f-b1ab-4bb2-a0a1-016d3b970ed6",
+        "line": 2,
+        "version": 482,
+        "index": 22
+      }
+    ],
+    "main.py": [
+      {
+        "id": "1a98662f-a612-443c-ac03-b634d00d4cbc",
+        "line": 102,
+        "version": 7279,
+        "index": 4882
+      }
+    ],
+    "templates/base.html": [
+      {
+        "id": "bcfeb865-9f99-41d4-b438-50de5336401f",
+        "line": 10,
+        "version": 2350,
+        "index": 324
+      }
+    ]
+  }
+}
