@@ -103,7 +103,7 @@ for faction in armies_cursor.fetchall():
       # création du dictionnaire de caractéristique
       profil_description = [dict(zip(profil_col_names, profil_row_data))]
 #      profil_description.append(liste_regles_sp)
-      regles_soldat_liste = regles_soldat(str(profil))
+      regles_soldat_liste = regles_soldat(profil)
       profil_description.append(liste_regles_sp)
       profil_description.append(liste_armes_combattants)
       liste_profils[profil[0]] = profil_description
