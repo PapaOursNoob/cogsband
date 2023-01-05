@@ -5,15 +5,16 @@ import sqlite3
 app = Flask(__name__)
 #forme des données :
 # {faction :{nom:fôô,nom_normalise:foo,regle:[{nom:exemple,description:patati patata},..],combattants:[{profil1},{profil2},{profil3}]}}
-connection = sqlite3.connect("Database/COGS.sqlite")
+with  sqlite3.connect("Database/COGS.sqlite") as connection:
+  curseur = connection.cursor()
 #initialisation de la donnée de debug
 test=[]
 
 #def soldats(faction_id):
 
-def regles_sp(faction_id,connection):
+def regles_sp(faction_id):
   #ajout des règles spéciales à chaque faction
-  faction_regle_cursor = connection.execute(
+  faction_regle_cursor = curseur.execute(
     "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
     str(faction_id))
     #initialisation des noms de colonnes pour les règles spéciales
@@ -27,8 +28,8 @@ def regles_sp(faction_id,connection):
   return faction_regle
 
 # Ajout des règles spéciales pour chaque profil 
-def regles_soldat(soldat_id,connection):
-  soldat_regle_cursor = connection.execute(
+def regles_soldat(soldat_id):
+  soldat_regle_cursor = curseur.execute(
     "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
     str(soldat_id))
   soldat_regle_col_names = [colr[0] for colr in soldat_regle_cursor.description]
@@ -38,7 +39,7 @@ def regles_soldat(soldat_id,connection):
     liste_soldat_regle.append(dict(zip(soldat_regle_col_names,regles_sp_data)))
 
 #récupération liste des factions
-armies_cursor = connection.execute(
+armies_cursor = curseur.execute(
   "SELECT * FROM Faction")
 #initialisation des noms de colonnes pour les factions
 col_names = [col[0] for col in armies_cursor.description]
@@ -122,7 +123,7 @@ test= liste_armes_combattants
 def index():
     return render_template('Presentation.html',
                            armies=armies,
-                           profildata=regles_sp(1,connection))
+                           profildata=regles_sp(1))
 
 
 @app.route('/Equipements')
