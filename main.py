@@ -109,8 +109,8 @@ for faction in armies_cursor.fetchall():
   ###  Nom normalisé  ###
   faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
   ### Règles de faction  ###
-  regles_sp_test=[{"Nom":"Règle 1", "Description":"C'est la règle 1"},{"Nom":"Règle 2","Description":"C'estla lrègle 2"}]
-  #regles_sp_test=regles_faction(faction[0])
+  #regles_sp_test=[{"Nom":"Règle 1", "Description":"C'est la règle 1"},{"Nom":"Règle 2","Description":"C'estla lrègle 2"}]
+  regles_sp_test=regles_faction(str(faction[0]))
   faction_donnees.append(regles_sp_test)
   #faction_donnees.append(regles_faction(str(faction[0])))
   ### Liste des profils  ###
