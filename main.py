@@ -123,7 +123,7 @@ test= liste_armes_combattants
 def index():
     return render_template('Presentation.html',
                            armies=armies,
-                           profildata=regles_sp(1))
+                           profildata=regles_sp_test)
 
 
 @app.route('/Equipements')
