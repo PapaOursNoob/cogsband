@@ -12,7 +12,7 @@ test=[]
 
 #def soldats(faction_id):
 
-def regles_speciales(faction_id : str):
+def regles_faction(faction_id : str):
   #ajout des règles spéciales à chaque faction
   faction_regle_cursor = curseur.execute(
     "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
@@ -118,13 +118,13 @@ for faction in armies_cursor.fetchall():
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-test= regles_speciales(1)
+test = regles_faction("1")
 
 @app.route('/')
 def index():
     return render_template('Presentation.html',
                            armies=armies,
-                           profildata=regles_sp_test)
+                           profildata=test)
 
 
 @app.route('/Equipements')
