@@ -26,6 +26,16 @@ def regles_sp(faction_id):
       faction_regle.append(faction_regle_description)
   return faction_regle
 
+# Ajout des règles spéciales pour chaque profil 
+def regles_soldat(soldat_id):
+  soldat_regle_cursor = connection.execute(
+    "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
+    str(soldat_id))
+  soldat_regle_col_names = [colr[0] for colr in soldat_regle_cursor.description]
+  liste_soldat_regle = []
+  for soldat_regle in soldat_regle_cursor.fetchall():
+    soldat_regle_data = list(soldat_regle)
+    liste_soldat_regle.append(dict(zip(soldat_regle_col_names,regles_sp_data)))
 
 #récupération liste des factions
 armies_cursor = connection.execute(
