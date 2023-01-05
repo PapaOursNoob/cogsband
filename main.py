@@ -107,7 +107,9 @@ for faction in armies_cursor.fetchall():
   ###  Nom normalisé  ###
   faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
   ### Règles de faction  ###
-  faction_donnees.append(regles_sp(faction[0]))
+  regles_sp_test=["test","test"]
+  faction_donnees.append(regles_sp_test)
+#  faction_donnees.append(regles_sp(faction[0]))
   ### Liste des profils  ###
   faction_donnees.append(liste_profils)
   armies.append(dict(zip(col_names, faction_donnees)))
@@ -120,7 +122,7 @@ test= liste_armes_combattants
 def index():
     return render_template('Presentation.html',
                            armies=armies,
-                           profildata=test)
+                           profildata=regles_sp(0))
 
 
 @app.route('/Equipements')
