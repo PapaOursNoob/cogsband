@@ -143,7 +143,7 @@ for faction in armies_cursor.fetchall():
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-test = armes_soldat("8")
+test = armes_soldat("7")
 
 @app.route('/')
 def index():
