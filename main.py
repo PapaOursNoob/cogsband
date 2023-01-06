@@ -36,13 +36,13 @@ def regles_faction(faction_id : str):
 def profil_soldat(soldat_id : str):
   #carac du profil
   profil_curseur = curseur.execute(
-    "SELECT ID,Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
+    "SELECT Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
     soldat_id)
   profil_col_names = [col[0] for col in profil_curseur.description]
-  #suppression de la colonne ID
-  del profil_col_names[0]
   profil_caracteristiques = [str(x) for x in profil_curseur.fetchone()]  
-  return profil_caracteristiques
+  # création du dictionnaire de caractéristique
+  profil_description = [dict(zip(profil_col_names,   profil_caracteristiques))]
+  return profil_description
 
 # Règles spéciales de profil 
 # format des données retournées :
@@ -96,7 +96,7 @@ for faction in armies_cursor.fetchall():
   faction_donnees .append(faction[1])
 
   ###############################################
-  #ajout de la liste des profils à chaque faction"""
+  #ajout de la liste des profils à chaque faction
   liste_nom_profils = curseur.execute(
     "SELECT ID FROM Combattant WHERE Faction_ID =(?)",
     str(faction[0])).fetchall()
@@ -147,7 +147,7 @@ for faction in armies_cursor.fetchall():
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-#test = profil_soldat("10")
+test = profil_soldat("10")
 
 @app.route('/')
 def index():
