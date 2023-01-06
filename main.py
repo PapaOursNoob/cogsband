@@ -73,7 +73,7 @@ def armes_soldat(soldat_id : str):
   for soldat_armes in Armes_curseur.fetchall():
     armes_donnees = list(soldat_armes)
     liste_armes.append(dict(zip(armes_col_names,armes_donnees)))
-  return soldat_id
+  return armes_col_names
 
 #récupération liste des factions
 armies_cursor = curseur.execute(
