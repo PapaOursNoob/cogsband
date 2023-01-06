@@ -31,13 +31,14 @@ def regles_faction(faction_id : str):
 # Caractéristique de profil
 def profil_soldat(soldat_id : str):
   #carac du profil
-  profil_cursor = curseur.execute(
+  profil_curseur = curseur.execute(
     "SELECT ID,Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
-    profil)
-  profil_col_names = [col[0] for col in profil_cursor.description]
+    soldat_id)
+  profil_col_names = [col[0] for col in profil_curseur.description]
   #suppression de la colonne ID
   del profil_col_names[0]
-  profil_row_data = [str(x) for x in profil_cursor.fetchone()]  
+  profil_caracteristiques = [str(x) for x in profil_curseur.fetchone()]  
+  return profil_caracteristiques
 
 # Règles spéciales de profil 
 def regles_soldat(soldat_id : str):
@@ -56,7 +57,7 @@ def armes_soldat(soldat_id : str):
   # Ajout des armes pour chaque profil     
   soldats_armes_cursor = curseur.execute(
     "SELECT Armes.Nom, Armes.L, Armes.R, Armes.P, Combattant_Armes.Couleur FROM Armes, Combattant_Armes WHERE Combattant_Armes.Combattant_ID=(?) AND Combattant_Armes.ARMES_ID=Armes.ID ORDER BY Combattant_Armes.Couleur",
-    profil)
+    soldat_id)
   #Nom des colonnes des armes
   soldats_armes_col_names = [col[0] for col in soldats_armes_cursor.description]
   #initialisation de la liste des armes pour chaque combattant
@@ -142,7 +143,7 @@ for faction in armies_cursor.fetchall():
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-test = type (str(faction[0]))
+test = profil_soldat("10")
 
 @app.route('/')
 def index():
