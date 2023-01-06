@@ -60,7 +60,7 @@ def regles_soldat(soldat_id : str):
 
 # Armes de profil
 # format des données retournées :
-# 
+# [{'Nom': 'Carabine Tesla', 'L': '70', 'R': 2, 'P': 5, 'Couleur': None}]
 def armes_soldat(soldat_id : str):
   # Ajout des armes pour chaque profil     
   Armes_curseur = curseur.execute(
@@ -105,9 +105,6 @@ for faction in armies_cursor.fetchall():
   liste_profils = {}
   # Parcours de la liste des profils pour la faction analysée
   for profil in liste_nom_profils:
-
-
-
 
       # création du dictionnaire de caractéristique
       soldat = profil_soldat(profil)

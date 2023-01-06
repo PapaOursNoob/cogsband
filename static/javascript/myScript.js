@@ -34,3 +34,4 @@ function mesReglesOut(DIVid) {
   var mesReglesDiv = document.getElementById(DIVid);
   mesReglesDiv.style.display = "none";
 }
+
