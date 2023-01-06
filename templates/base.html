@@ -12,11 +12,12 @@
   <nav class="nav-menu">
     <h1><a href="/" class="nav-titre">COGS</a></h1>
     {% for faction in armies %}{% set faction_nom_normalise = faction["Nom_normalise"] %}
-    <a href="/" class="nav-link">
+    <a href="#" class="nav-link">
       <div onclick="myFaction('{{faction_nom_normalise}}')" class="nav-faction">{{faction['Nom']}}</div>
     </a>{% endfor %}
     <a class="nav-link" href="{{ url_for('equipement') }}">Equipements</a>
     <a class="nav-link" href="{{ url_for('capacite') }}">Capacités Héros</a>
+    <a class="nav-link" href="{{ url_for('constructeur') }}">Constructeur</a>
   </nav>
   <main class="principal">{% block content %} {% endblock %}</main>
   <script type="text/javascript" src="{{ url_for('static', filename='javascript/myScript.js') }}"></script>
