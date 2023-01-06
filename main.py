@@ -127,7 +127,8 @@ for faction in armies_cursor.fetchall():
 
       # création du dictionnaire de caractéristique
       soldat = profil_soldat(profil)
-      profil_description = [dict(zip(profil_col_names, profil_row_data))]
+      profil_description = soldat
+#      profil_description = [dict(zip(profil_col_names, profil_row_data))]
       # ajout des listes de règle de spéciales de chaaque profil
       regles_soldat_liste = regles_soldat(profil)
       profil_description.append(regles_soldat_liste)
