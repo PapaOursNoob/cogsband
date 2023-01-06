@@ -130,7 +130,8 @@ for faction in armies_cursor.fetchall():
 
       # ajout des listes d'armes
       armes_soldat_liste = armes_soldat(profil)
-      profil_description.append(liste_armes_combattants)
+      profil_description.append(armes_soldat_liste)
+
       # compilation des profils de la faction à chaque passage de boucle
       liste_profils[profil[0]] = profil_description
     
