@@ -106,18 +106,7 @@ for faction in armies_cursor.fetchall():
   # Parcours de la liste des profils pour la faction analysée
   for profil in liste_nom_profils:
 
-            
-      # Ajout des armes pour chaque profil     
-      combattants_armes_cursor = curseur.execute(
-        "SELECT Armes.Nom, Armes.L, Armes.R, Armes.P, Combattant_Armes.Couleur FROM Armes, Combattant_Armes WHERE Combattant_Armes.Combattant_ID=(?) AND Combattant_Armes.ARMES_ID=Armes.ID ORDER BY Combattant_Armes.Couleur",
-        profil)
-      #Nom des colonnes des armes
-      combattants_armes_col_names = [col[0] for col in combattants_armes_cursor.description]
-      #initialisation de la liste des armes pour chaque combattant
-      liste_armes_combattants = []
-      for combattant_armes in combattants_armes_cursor.fetchall():
-        combattant_armes_data = list(combattant_armes)
-        liste_armes_combattants.append(dict(zip(combattants_armes_col_names,combattant_armes_data)))
+
 
 
       # création du dictionnaire de caractéristique
