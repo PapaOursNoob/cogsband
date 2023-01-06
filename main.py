@@ -13,6 +13,8 @@ test=[]
 #def soldats(faction_id):
 
 # Regles spéciales de facion
+# format des données retournées :
+# {"Nom": "regle", "Description":"Contenu de la regle"}
 def regles_faction(faction_id : str):
   faction_regle_cursor = curseur.execute(
     "SELECT Nom, Description FROM Regles_Faction WHERE Faction_ID = (?)",
@@ -29,6 +31,8 @@ def regles_faction(faction_id : str):
 
 
 # Caractéristique de profil
+# format des données retournées :
+# 
 def profil_soldat(soldat_id : str):
   #carac du profil
   profil_curseur = curseur.execute(
@@ -41,6 +45,8 @@ def profil_soldat(soldat_id : str):
   return profil_caracteristiques
 
 # Règles spéciales de profil 
+# format des données retournées :
+# 
 def regles_soldat(soldat_id : str):
   soldat_regle_cursor = curseur.execute(
     "SELECT Regles_sp.Nom,Regles_sp.Description,Combattant_Regle_sp.Precision FROM Regles_sp, Combattant_Regle_sp WHERE Combattant_Regle_sp.Combattant_ID=(?) AND Combattant_Regle_sp.Regles_sp_ID=Regles_sp.ID",
@@ -53,6 +59,8 @@ def regles_soldat(soldat_id : str):
   return liste_soldat_regle
 
 # Armes de profil
+# format des données retournées :
+# 
 def armes_soldat(soldat_id : str):
   # Ajout des armes pour chaque profil     
   soldats_armes_cursor = curseur.execute(
@@ -89,7 +97,7 @@ for faction in armies_cursor.fetchall():
 
   ###############################################
   #ajout de la liste des profils à chaque faction"""
-  liste_nom_profils = connection.execute(
+  liste_nom_profils = curseur.execute(
     "SELECT ID FROM Combattant WHERE Faction_ID =(?)",
     str(faction[0])).fetchall()
   profildata = list(liste_nom_profils)
@@ -98,16 +106,14 @@ for faction in armies_cursor.fetchall():
   for profil in liste_nom_profils:
 
       #carac du profil
-      profil_cursor = connection.execute(
-        "SELECT ID,Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
+      profil_cursor = curseur.execute(
+        "SELECT Nom,Type,Rang,M,E,V,C FROM Combattant WHERE ID =(?)", 
         profil)
       profil_col_names = [col[0] for col in profil_cursor.description]
-      #suppression de la colonne ID
-      del profil_col_names[0]
       profil_row_data = [str(x) for x in profil_cursor.fetchone()]
             
       # Ajout des armes pour chaque profil     
-      combattants_armes_cursor = connection.execute(
+      combattants_armes_cursor = curseur.execute(
         "SELECT Armes.Nom, Armes.L, Armes.R, Armes.P, Combattant_Armes.Couleur FROM Armes, Combattant_Armes WHERE Combattant_Armes.Combattant_ID=(?) AND Combattant_Armes.ARMES_ID=Armes.ID ORDER BY Combattant_Armes.Couleur",
         profil)
       #Nom des colonnes des armes
@@ -118,8 +124,6 @@ for faction in armies_cursor.fetchall():
         combattant_armes_data = list(combattant_armes)
         liste_armes_combattants.append(dict(zip(combattants_armes_col_names,combattant_armes_data)))
 
-      #suppression de l'ID avant d'intégrer les données au profil
-      del profil_row_data[0] 
 
       # création du dictionnaire de caractéristique
       profil_description = [dict(zip(profil_col_names, profil_row_data))]
@@ -143,7 +147,7 @@ for faction in armies_cursor.fetchall():
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-test = profil_soldat("10")
+#test = profil_soldat("10")
 
 @app.route('/')
 def index():
