@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}"/>
-    <title>COGS : {% block title %}Bienvenue{% endblock %}</title>
-  </head>
-  <body>
-    <nav class="nav-menu">
-      <h1><a href="/" class="nav-titre">COGS</a></h1>
-        {% for faction in armies %}{% set faction_nom_normalise = faction["Nom_normalise"] %}
-        <a href="#" class="nav-link"><div  onclick="myFunction('{{faction_nom_normalise}}')" class="nav-faction">{{faction['Nom']}}</div></a>{% endfor %}
-        <a class="nav-link" href="{{ url_for('equipement') }}">Equipements</a>
-        <a class="nav-link" href="{{ url_for('capacite') }}">Capacités Héros</a>
-    </nav>
-    <main class="principal">{% block content %} {% endblock %}</main>
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/myScript.js') }}"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+  <title>COGS : {% block title %}Bienvenue{% endblock %}</title>
+</head>
+
+<body>
+  <nav class="nav-menu">
+    <h1><a href="/" class="nav-titre">COGS</a></h1>
+    {% for faction in armies %}{% set faction_nom_normalise = faction["Nom_normalise"] %}
+    <a href="/" class="nav-link">
+      <div onclick="myFunction('{{faction_nom_normalise}}')" class="nav-faction">{{faction['Nom']}}</div>
+    </a>{% endfor %}
+    <a class="nav-link" href="{{ url_for('equipement') }}">Equipements</a>
+    <a class="nav-link" href="{{ url_for('capacite') }}">Capacités Héros</a>
+  </nav>
+  <main class="principal">{% block content %} {% endblock %}</main>
+  <script type="text/javascript" src="{{ url_for('static', filename='javascript/myScript.js') }}"></script>
+</body>
+
 </html>
