@@ -1,8 +1,0 @@
-{% extends "base.html" %}  {% block navbar %}
-    <nav class="nav-menu">
-      <h1><a href="{{ root_url }}" class="nav-titre">COGS</a></h1>
-        {% for faction in armies %}{% set faction_nom_normalise = faction["Nom_normalise"] %}
-        <a href="#" class="nav-link"><div  onclick="myFunction('{{faction_nom_normalise}}')" class="nav-faction">{{faction['Nom']}}</div></a>{% endfor %}
-        <a class="nav-link" href="https://Bande-Cogs.papaoursnoob.repl.co/Equipements">Equipements</a>
-    </nav>
-{% endblock %}
