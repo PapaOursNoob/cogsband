@@ -10,4 +10,19 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3.0.0"></script>
+<script type="module">
+    const API_URL = '/constructeur'
+    const app = Vue.createApp({
+        data() {
+            return {
+                donnees: null
+            }
+        },
+        created() {
+            fetch(APi_URL).then(response => response.json()).then(data => { this.data = data })
+        }
+    }).mount('#app')
+</script>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import unidecode
 import sqlite3
 
@@ -164,7 +164,6 @@ def capacite():
 
 @app.route('/Constructeur')
 def constructeur():
-  return render_template('constructeur.html',
-                          armies=armies)
+  return jsonify(armies)
 
 app.run(host='0.0.0.0', port=81)
