@@ -7,7 +7,7 @@
             <a href="#faction1">Faction1</a>
             <a href="#faction2">Faction2</a>
             <a href="#faction3">Faction3</a>
-            {{ data }}
+            {{ donnees }}
         </div>
     </div>
 </div>
@@ -22,7 +22,7 @@
             }
         },
         created() {
-            fetch(APi_URL).then(response => response.json()).then(data => { this.data = data })
+            fetch(APi_URL).then(response => response.json()).then(donnees => { this.donnees = donnees })
         }
     }).mount('#app')
 </script>
