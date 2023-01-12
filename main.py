@@ -3,6 +3,8 @@ import unidecode
 import sqlite3
 
 app = Flask(__name__)
+app.jinja_env.variable_start_string = '(( '
+app.jinja_env.variable_end_string = ' ))'
 #forme des données :
 # {faction :{nom:fôô,nom_normalise:foo,regle:[{nom:exemple,description:patati patata},..],combattants:[{profil1},{profil2},{profil3}]}}
 with  sqlite3.connect("Database/COGS.sqlite") as connection:

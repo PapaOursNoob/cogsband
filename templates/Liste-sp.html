@@ -1,6 +1,6 @@
-{% extends "base.html" %} {% block title %}Liste {{Titre}}{% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %}Liste ((Titre)){% endblock %} {% block content %}
 <div class="liste-regle">
-  <h3> Liste {{Titre}}</h3>
+  <h3> Liste ((Titre))</h3>
   <div class="contenu">
     <div class="profils">
       {% for Element in Liste %}
@@ -9,8 +9,8 @@
         <div class="label description">Description</div>
       </div>
       <div class="liste">
-        <div class="element nom">{{Element[1]}}</div>
-        <div class="element description">{{Element[2]}}</div>
+        <div class="element nom">((Element[1]))</div>
+        <div class="element description">((Element[2]))</div>
       </div>
       {% endfor %}
     </div>
