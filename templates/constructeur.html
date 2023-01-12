@@ -7,19 +7,19 @@
             <a href="#faction1">Faction1</a>
             <a href="#faction2">Faction2</a>
             <a href="#faction3">Faction3</a>
-            >div id="app">{{ donnees }}
         </div>
+        <div id="app">[[ title ]] bracket ou accolades {{title}}</div>
     </div>
 </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@3.0.0"></script>
 <script type="module">
-    const API_URL = '/constructeur'
+    const API_URL = '/data'
     const app = Vue.createApp({
+        delimiters: ['[[', ']]'],
         data() {
             return {
-                donnees: null
+                donnees: null,
+                title: 'test'
             }
         },
         created() {
