@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+  <link rel="stylesheet" href="(( url_for('static', filename='style/style.css') ))" />
   <title>COGS : {% block title %}Bienvenue{% endblock %}</title>
 </head>
 
@@ -15,14 +15,14 @@
     <h1><a href="/" class="nav-titre">COGS</a></h1>
     {% for faction in armies %}{% set faction_nom_normalise = faction["Nom_normalise"] %}
     <a href="#" class="nav-link">
-      <div onclick="myFaction('{{faction_nom_normalise}}')" class="nav-faction">{{faction['Nom']}}</div>
+      <div onclick="myFaction('((faction_nom_normalise))')" class="nav-faction">((faction['Nom']))</div>
     </a>{% endfor %}
-    <a class="nav-link" href="{{ url_for('equipement') }}">Equipements</a>
-    <a class="nav-link" href="{{ url_for('capacite') }}">Capacités Héros</a>
-    <a class="nav-link" href="{{ url_for('constructeur') }}">Constructeur</a>
+    <a class="nav-link" href="(( url_for('equipement') ))">Equipements</a>
+    <a class="nav-link" href="(( url_for('capacite') ))">Capacités Héros</a>
+    <a class="nav-link" href="(( url_for('constructeur') ))">Constructeur</a>
   </nav>
   <main class="principal">{% block content %} {% endblock %}</main>
-  <script type="text/javascript" src="{{ url_for('static', filename='javascript/myScript.js') }}"></script>
+  <script type="text/javascript" src="(( url_for('static', filename='javascript/myScript.js') ))"></script>
 </body>
 
 </html>
