@@ -115,11 +115,11 @@ for faction in armies_cursor.fetchall():
 
       # ajout des listes de règle de spéciales de chaaque profil
       regles_soldat_liste = regles_soldat(profil)
-      profil_description["regles"]=regles_soldat_liste
+      profil_description["regles"] = regles_soldat_liste
 
       # ajout des listes d'armes
       armes_soldat_liste = armes_soldat(profil)
-      profil_description["armes"]=armes_soldat_liste
+      profil_description["armes"] = armes_soldat_liste
 
       # compilation des profils de la faction à chaque passage de boucle
       liste_profils[profil[0]] = profil_description
