@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="(( url_for('static', filename='style/style.css') ))" />
+  <title>COGS : {% block title %}Bienvenue{% endblock %}</title>
+  <script type="module">
+    const API_URL = '/donnees'
+    const app = Vue.createApp({
+        data() {
+            return {
+                donnees: null,
+                title: 'test'
+            }
+        },
+        created() {
+            fetch(API_URL).then(response => response.json()).then(donnees => { this.donnees = donnees })
+        }
+    }).mount('#app')
+  </script>
+</head>
+
+  <body>
+    <div id="app">
+      {{donnees}}
+      <div v-for="donnee in donnees">
+        {{donnee.Nom}}
+      <div v-for="profil in donnee.Profils">
+        {{ profil }}
+<div class="profils">
+  <div class="combattant">
+    <div class="liste pres">
+      <div class="label nom">NOM</div>
+      <div class="label type">Type</div>
+      <div class="label rang">Rang</div>
+      <div class="label mvt">M</div>
+      <div class="label carac">E</div>
+      <div class="label carac">V</div>
+      <div class="label carac">C</div>
+    </div>
+    <div class="liste">
+      <div class="element nom">{{profil.carac.Nom}}</div>
+      <div class="element type">{{profil[0].Type}}</div>
+      <div class="element rang valeur">{{profil[0].rang}}</div>
+      <div class="element mvt valeur">{{profil[0].M}}</div>
+      <div class="element carac valeur">{{profil[0].E}}</div>
+      <div class="element carac valeur">{{profil[0].V}}</div>
+      <div class="element carac valeur">{{profil[0].C}}</div>
+    </div>
+  </div>
+</div>
+      </div>
+      </div>
+    </div>
+  </body>
+</html>

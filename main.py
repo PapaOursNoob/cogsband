@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask,render_template,jsonify
 import unidecode
 import sqlite3
 
@@ -7,7 +7,7 @@ app.jinja_env.variable_start_string = '(( '
 app.jinja_env.variable_end_string = ' ))'
 #forme des données :
 # {faction :{nom:fôô,nom_normalise:foo,regle:[{nom:exemple,description:patati patata},..],combattants:[{profil1},{profil2},{profil3}]}}
-with  sqlite3.connect("Database/COGS.sqlite") as connection:
+with  sqlite3.connect("database/COGS.sqlite") as connection:
   curseur = connection.cursor()
 #initialisation de la donnée de debug
 test=[]
@@ -85,9 +85,9 @@ col_names = [col[0] for col in armies_cursor.description]
 #Suppression de l'ID dans les noms de colonnes pour la boucle
 del col_names[0]
 #Ajout de la colonne de nom de faction normalisé, de règle de faction et des profils
-col_names.append('Nom_normalise')
-col_names.append('Regle_Faction')
-col_names.append('Profils')
+col_names.append('nom_normalise')
+col_names.append('regle_faction')
+col_names.append('profils')
 #Initialisation de la liste des factions
 armies = []
 
@@ -109,16 +109,17 @@ for faction in armies_cursor.fetchall():
   for profil in liste_nom_profils:
 
       # création du dictionnaire de caractéristique
+      profil_description={}
       soldat = profil_soldat(profil)
-      profil_description = soldat
+      profil_description["carac"] = soldat
 
       # ajout des listes de règle de spéciales de chaaque profil
       regles_soldat_liste = regles_soldat(profil)
-      profil_description.append(regles_soldat_liste)
+      profil_description["regles"]=regles_soldat_liste
 
       # ajout des listes d'armes
       armes_soldat_liste = armes_soldat(profil)
-      profil_description.append(armes_soldat_liste)
+      profil_description["armes"]=armes_soldat_liste
 
       # compilation des profils de la faction à chaque passage de boucle
       liste_profils[profil[0]] = profil_description
@@ -135,39 +136,10 @@ for faction in armies_cursor.fetchall():
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
 
-#test = armes_soldat("7")
 
 @app.route('/')
 def index():
-    return render_template('Presentation.html',
-                           armies=armies,
-                           profildata=test)
-
-
-@app.route('/Equipements')
-def equipement():
-    Liste = []
-    for val in equipements:
-        Liste.append(val)
-    return render_template('Liste-sp.html',
-                           armies=armies,
-                           Liste=Liste,
-                           Titre="Equipement")
-
-@app.route('/Capacite')
-def capacite():
-    Liste = []
-    for val in capacites:
-        Liste.append(val)
-    return render_template('Liste-sp.html',
-                           armies=armies,
-                           Liste=Liste,
-                           Titre="Capacités")
-
-@app.route('/Constructeur')
-def constructeur():
-    return render_template('constructeur.html',
-                           armies=armies)
+    return render_template('index.html')
 
 @app.route('/donnees')
 def donnees():
