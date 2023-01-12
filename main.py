@@ -135,7 +135,7 @@ for faction in armies_cursor.fetchall():
   armies.append(dict(zip(col_names, faction_donnees)))
 equipements = connection.execute("SELECT * FROM Equipement").fetchall()
 capacites = connection.execute("SELECT * FROM Capacite").fetchall()
-
+donnees = {"factions":armies,"equipements":equipements,"capacites":capacites}
 
 @app.route('/')
 def index():
@@ -143,6 +143,6 @@ def index():
 
 @app.route('/donnees')
 def donnees():
-  return jsonify(liste_profils)
+  return jsonify(donnees)
 
 app.run(host='0.0.0.0', port=81)
