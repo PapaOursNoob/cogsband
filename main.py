@@ -164,6 +164,11 @@ def capacite():
 
 @app.route('/Constructeur')
 def constructeur():
+    return render_template('constructeur.html',
+                           armies=armies)
+
+@app.route('/donnees')
+def donnees():
   return jsonify(armies)
 
 app.run(host='0.0.0.0', port=81)
