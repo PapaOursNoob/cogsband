@@ -143,6 +143,6 @@ def index():
 
 @app.route('/donnees')
 def donnees():
-  return jsonify(donnees)
+  return jsonify(equipements)
 
 app.run(host='0.0.0.0', port=81)
