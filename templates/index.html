@@ -11,48 +11,61 @@
   <script type="module">
     const API_URL = '/donnees'
     const app = Vue.createApp({
-        data() {
-            return {
-                donnees: null,
-                title: 'test'
-            }
-        },
-        created() {
-            fetch(API_URL).then(response => response.json()).then(donnees => { this.donnees = donnees })
+      data() {
+        return {
+          donnees: null,
+          title: 'test'
         }
+      },
+      methods: {
+        getData() {
+          axios.get('https://cogsband-1.papaoursnoob.repl.co/donnees')
+            .then(response => {
+              this.donnees = response.donnees;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      },
+      created() {
+        //fetch(API_URL).then(response => response.json()).then(donnees => { this.donnees = donnees })
+        this.getData()
+      }
     }).mount('#app')
   </script>
 </head>
 
-  <body>
-    <div id="app">
-      {{donnees}}
-      <div v-for="donnee in donnees">
+<body>
+  <div id="app">
+    {{donnees}}
+    <div v-for="donnee in donnees">
       <div v-for="profil in donnee.profils">
-<div class="profils">
-  <div class="combattant">
-    <div class="liste pres">
-      <div class="label nom">NOM</div>
-      <div class="label type">Type</div>
-      <div class="label rang">Rang</div>
-      <div class="label mvt">M</div>
-      <div class="label carac">E</div>
-      <div class="label carac">V</div>
-      <div class="label carac">C</div>
-    </div>
-    <div class="liste">
-      <div class="element nom">{{profil.carac.Nom}}</div>
-      <div class="element type">{{profil[0].Type}}</div>
-      <div class="element rang valeur">{{profil[0].rang}}</div>
-      <div class="element mvt valeur">{{profil[0].M}}</div>
-      <div class="element carac valeur">{{profil[0].E}}</div>
-      <div class="element carac valeur">{{profil[0].V}}</div>
-      <div class="element carac valeur">{{profil[0].C}}</div>
+        <div class="profils">
+          <div class="combattant">
+            <div class="liste pres">
+              <div class="label nom">NOM</div>
+              <div class="label type">Type</div>
+              <div class="label rang">Rang</div>
+              <div class="label mvt">M</div>
+              <div class="label carac">E</div>
+              <div class="label carac">V</div>
+              <div class="label carac">C</div>
+            </div>
+            <div class="liste">
+              <div class="element nom">{{profil.carac.Nom}}</div>
+              <div class="element type">{{profil[0].Type}}</div>
+              <div class="element rang valeur">{{profil[0].rang}}</div>
+              <div class="element mvt valeur">{{profil[0].M}}</div>
+              <div class="element carac valeur">{{profil[0].E}}</div>
+              <div class="element carac valeur">{{profil[0].V}}</div>
+              <div class="element carac valeur">{{profil[0].C}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-      </div>
-      </div>
-    </div>
-  </body>
+</body>
+
 </html>
