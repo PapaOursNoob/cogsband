@@ -24,12 +24,12 @@ def regles_faction(faction_id : str):
     #initialisation des noms de colonnes pour les règles spéciales
   faction_regle_col = [col[0] for col in faction_regle_cursor.description]
   faction_regle_liste = faction_regle_cursor.fetchall()
-  faction_regle = []
+  #faction_regle = []
   # Ajout des règles de faction
   for regle in faction_regle_liste:
       faction_regle_description = dict(zip(faction_regle_col, regle))
-      faction_regle.append(faction_regle_description)
-  return faction_regle
+      #faction_regle.append(faction_regle_description)
+  return faction_regle_description
 
 
 # Caractéristique de profil
@@ -144,6 +144,6 @@ def index():
 
 @app.route('/donnees')
 def donnees():
-  return jsonify(armies)
+  return jsonify(donnees)
 
 app.run(host='0.0.0.0', port=81)
