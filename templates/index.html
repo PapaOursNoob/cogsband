@@ -39,6 +39,7 @@
 <body>
   <div id="app">
     <div v-for="donnee in donnees">
+      {{donnee}}
       <div v-for="profil in donnee.profils">
         <div class="profils">
           <div class="combattant">
@@ -64,7 +65,6 @@
         </div>
       </div>
     </div>
-    {{ donnees }}
   </div>
 </body>
 
