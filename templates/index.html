@@ -38,7 +38,6 @@
 
 <body>
   <div id="app">
-    {{donnees}}
     <div v-for="donnee in donnees">
       <div v-for="profil in donnee.profils">
         <div class="profils">
@@ -54,7 +53,7 @@
             </div>
             <div class="liste">
               <div class="element nom">{{profil.carac.Nom}}</div>
-              <div class="element type">{{profil[0].Type}}</div>
+              <div class="element type">{{profil.carac.Type}}</div>
               <div class="element rang valeur">{{profil[0].rang}}</div>
               <div class="element mvt valeur">{{profil[0].M}}</div>
               <div class="element carac valeur">{{profil[0].E}}</div>
@@ -65,6 +64,7 @@
         </div>
       </div>
     </div>
+    {{ donnees }}
   </div>
 </body>
 
