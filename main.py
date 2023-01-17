@@ -24,12 +24,12 @@ def regles_faction(faction_id : str):
     #initialisation des noms de colonnes pour les règles spéciales
   faction_regle_col = [col[0] for col in faction_regle_cursor.description]
   faction_regle_liste = faction_regle_cursor.fetchall()
-  #faction_regle = []
+  faction_regle = []
   # Ajout des règles de faction
   for regle in faction_regle_liste:
       faction_regle_description = dict(zip(faction_regle_col, regle))
-      #faction_regle.append(faction_regle_description)
-  return faction_regle_description
+      faction_regle.append(faction_regle_description)
+  return faction_regle
 
 
 # Caractéristique de profil
@@ -43,7 +43,7 @@ def profil_soldat(soldat_id : str):
   profil_col_names = [col[0] for col in profil_curseur.description]
   profil_caracteristiques = [str(x) for x in profil_curseur.fetchone()]  
   # création du dictionnaire de caractéristique
-  profil_description = [dict(zip(profil_col_names,   profil_caracteristiques))]
+  profil_description = dict(zip(profil_col_names,   profil_caracteristiques))
   return profil_description
 
 # Règles spéciales de profil 
