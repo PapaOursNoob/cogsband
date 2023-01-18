@@ -86,66 +86,8 @@ def armes_soldat(soldat_id : str):
   return liste_armes
 
 #récupération liste des factions
-armies_cursor = curseur.execute(
-  "SELECT * FROM Faction")
-#initialisation des noms de colonnes pour les factions
-col_names = [col[0] for col in armies_cursor.description]
-#Suppression de l'ID dans les noms de colonnes pour la boucle
-del col_names[0]
-#Ajout de la colonne de nom de faction normalisé, de règle de faction et des profils
-col_names.append('nom_normalise')
-col_names.append('regle_faction')
-col_names.append('profils')
-#Initialisation de la liste des factions
-armies = []
-
 liste_faction = faction_liste()
 
-#Boucle de récupération des infos
-for faction in armies_cursor.fetchall():
-  #initialisation de la liste des infos de la faction analysée
-  faction_donnees = []
-  faction_donnees .append(faction[1])
-
-  ###############################################
-  #ajout de la liste des profils à chaque faction
-  liste_nom_profils = curseur.execute(
-    "SELECT ID FROM Combattant WHERE Faction_ID =(?)",
-    str(faction[0])).fetchall()
-  profildata = list(liste_nom_profils)
-  liste_profils = {}
-  # Parcours de la liste des profils pour la faction analysée
-  for profil in liste_nom_profils:
-
-      # création du dictionnaire de caractéristique
-      profil_description={}
-      soldat = profil_soldat(profil)
-      
-      # ajout des listes de règle de spéciales de chaaque profil
-      regles_soldat_liste = regles_soldat(profil)
-
-      # ajout des listes d'armes
-      armes_soldat_liste = armes_soldat(profil)
-
-      profil_description = [soldat,regles_soldat_liste,armes_soldat_liste]
-#      profil_description = {"carac":soldat,"regles":regles_soldat_liste,"armes":armes_soldat_liste}
-
-      # compilation des profils de la faction à chaque passage de boucle
-      liste_profils[profil[0]] = profil_description
-    
-  #Construction de la structure des données de toutes les factions
-  ###  Nom normalisé  ###
-  faction_donnees.append(unidecode.unidecode(faction_donnees[0]))
-  ### Règles de faction  ###
-  regles_faction_liste=regles_faction(str(faction[0]))
-  faction_donnees.append(regles_faction_liste)
-  ### Liste des profils  ###
-  faction_donnees.append(liste_profils)
-  armies.append(dict(zip(col_names, faction_donnees)))
-equipements = connection.execute("SELECT * FROM Equipement").fetchall()
-capacites = connection.execute("SELECT * FROM Capacite").fetchall()
-#donnees = {"factions":armies,"equipements":equipements,"capacites":capacites}
-donnees = {"equipements":equipements,"capacites":capacites}
 
 @app.route('/')
 def index():
