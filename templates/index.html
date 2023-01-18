@@ -41,30 +41,6 @@
     {{donnees}}
     <div v-for="donnee in donnees">
       {{donnee}}
-      <div v-for="profil in donnee.profils">
-        <div class="profils">
-          <div class="combattant">
-            <div class="liste pres">
-              <div class="label nom">NOM</div>
-              <div class="label type">Type</div>
-              <div class="label rang">Rang</div>
-              <div class="label mvt">M</div>
-              <div class="label carac">E</div>
-              <div class="label carac">V</div>
-              <div class="label carac">C</div>
-            </div>
-            <div class="liste">
-              <div class="element nom">{{profil.carac.Nom}}</div>
-              <div class="element type">{{profil.carac.Type}}</div>
-              <div class="element rang valeur">{{profil[0].rang}}</div>
-              <div class="element mvt valeur">{{profil[0].M}}</div>
-              <div class="element carac valeur">{{profil[0].E}}</div>
-              <div class="element carac valeur">{{profil[0].V}}</div>
-              <div class="element carac valeur">{{profil[0].C}}</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </body>
