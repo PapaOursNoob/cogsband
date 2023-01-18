@@ -11,10 +11,13 @@ with  sqlite3.connect("database/COGS.sqlite") as connection:
   curseur = connection.cursor()
 
 def factions():
+  factions_data = []
   factions_curseur = curseur.execute("SELECT * FROM Faction")
   factions_col = [col[0] for col in factions_curseur.description]
-  factions_liste = factions_curseur.fetchall
-  factions_data = dict(zip(factions_col,factions_liste))
+  factions_liste = factions_curseur.fetchall()
+  for faction in factions_liste:
+    faction_dict = dict(zip(factions_col,faction))
+    factions_data.append(faction_dict)
   return factions_data
 
 # Regles spéciales de facion
@@ -82,7 +85,7 @@ def armes_soldat(soldat_id : str):
   return liste_armes
 
 #récupération liste des factions
-liste_faction = factions
+liste_faction = factions()
 
 @app.route('/')
 def index():
