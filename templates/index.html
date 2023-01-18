@@ -38,9 +38,12 @@
 
 <body>
   <div id="app">
-    {{donnees}}
     <div v-for="donnee in donnees">
-      {{donnee}}
+      {{donnee['Nom']}}
+      <div v-for="regle in donnee['regle']">
+        {{regle['Nom']}} <br>
+        {{regle['Description']}} <br>
+      </div>
     </div>
   </div>
 </body>
