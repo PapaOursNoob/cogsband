@@ -88,7 +88,7 @@ def armes_soldat(soldat_id : str):
 factions_donnees= []
 liste_faction = factions()
 for faction_ID in liste_faction:
-  faction_regle = regles_faction( faction_ID['ID'].str() )
+  faction_regle = regles_faction( str(faction_ID['ID']) )
   faction_ID['regle'] = faction_regle
   factions_donnees.append(faction_ID)
 
