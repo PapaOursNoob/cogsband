@@ -1,16 +1,14 @@
 from flask import Flask,render_template,jsonify
-import unidecode
 import sqlite3
 
 app = Flask(__name__)
-app.jinja_env.variable_start_string = '(( '
-app.jinja_env.variable_end_string = ' ))'
+app.jinja_env.variable_start_string = '(('
+app.jinja_env.variable_end_string = '))'
+
 #forme des données :
 # {faction :{nom:fôô,nom_normalise:foo,regle:[{nom:exemple,description:patati patata},..],combattants:[{profil1},{profil2},{profil3}]}}
 with  sqlite3.connect("database/COGS.sqlite") as connection:
   curseur = connection.cursor()
-#initialisation de la donnée de debug
-test=[]
 
 def faction_liste():
   factions_curseur = curseur.execute(
@@ -86,8 +84,7 @@ def armes_soldat(soldat_id : str):
   return liste_armes
 
 #récupération liste des factions
-liste_faction = faction_liste()
-
+liste_faction = ["test","essai","paf"]
 
 @app.route('/')
 def index():
