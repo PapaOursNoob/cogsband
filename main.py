@@ -10,14 +10,6 @@ app.jinja_env.variable_end_string = '))'
 with  sqlite3.connect("database/COGS.sqlite") as connection:
   curseur = connection.cursor()
 
-def faction_liste():
-  factions_curseur = curseur.execute(
-    "SELECT * FROM Faction"
-  )
-  faction_liste_col = [col[0].lower for col in factions_curseur.description]
-  factions = factions_curseur.fetchall()
-  factions_liste = dict(zip(faction_liste_col,factions))
-  return factions_liste
 
 # Regles spéciales de facion
 # format des données retournées :
