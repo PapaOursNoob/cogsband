@@ -12,7 +12,14 @@ with  sqlite3.connect("database/COGS.sqlite") as connection:
 #initialisation de la donnée de debug
 test=[]
 
-#def soldats(faction_id):
+def faction_liste():
+  factions_curseur = curseur.execute(
+    "SELECT * FROM Faction"
+  )
+  faction_liste_col = [col[0].lower for col in factions_curseur.description]
+  factions = factions_curseur.fetchall()
+  factions_liste = dict(zip(faction_liste_col,factions))
+  return factions_liste
 
 # Regles spéciales de facion
 # format des données retournées :
@@ -44,6 +51,7 @@ def profil_soldat(soldat_id : str):
   profil_caracteristiques = [str(x) for x in profil_curseur.fetchone()]  
   # création du dictionnaire de caractéristique
   profil_description = dict(zip(profil_col_names,   profil_caracteristiques))
+  
   return profil_description
 
 # Règles spéciales de profil 
@@ -91,6 +99,7 @@ col_names.append('profils')
 #Initialisation de la liste des factions
 armies = []
 
+liste_faction = faction_liste()
 
 #Boucle de récupération des infos
 for faction in armies_cursor.fetchall():
@@ -144,6 +153,6 @@ def index():
 
 @app.route('/donnees')
 def donnees():
-  return jsonify(donnees)
+  return jsonify(liste_faction)
 
 app.run(host='0.0.0.0', port=81)
