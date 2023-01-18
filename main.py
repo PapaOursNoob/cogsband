@@ -6,10 +6,16 @@ app.jinja_env.variable_start_string = '(('
 app.jinja_env.variable_end_string = '))'
 
 #forme des données :
-# {faction :{nom:fôô,nom_normalise:foo,regle:[{nom:exemple,description:patati patata},..],combattants:[{profil1},{profil2},{profil3}]}}
+#
 with  sqlite3.connect("database/COGS.sqlite") as connection:
   curseur = connection.cursor()
 
+def factions():
+  factions_curseur = curseur.execute("SELECT * FROM Faction")
+  factions_col = [col[0] for col in factions_curseur.description]
+  factions_liste = factions_curseur.fetchall
+  factions_data = dict(zip(factions_col,factions_liste))
+  return factions_data
 
 # Regles spéciales de facion
 # format des données retournées :
@@ -76,7 +82,7 @@ def armes_soldat(soldat_id : str):
   return liste_armes
 
 #récupération liste des factions
-liste_faction = ["test","essai","paf"]
+liste_faction = factions
 
 @app.route('/')
 def index():
