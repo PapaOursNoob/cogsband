@@ -85,7 +85,12 @@ def armes_soldat(soldat_id : str):
   return liste_armes
 
 #récupération liste des factions
+factions_donnees= []
 liste_faction = factions()
+for faction_ID in liste_faction:
+   faction_regle = regles_faction(faction_ID.ID)
+   faction_ID['regle'] = faction_regle
+   factions_donnees.append(faction_ID)
 
 @app.route('/')
 def index():
@@ -93,6 +98,6 @@ def index():
 
 @app.route('/donnees')
 def donnees():
-  return jsonify(liste_faction)
+  return jsonify(factions_donnees)
 
 app.run(host='0.0.0.0', port=81)
