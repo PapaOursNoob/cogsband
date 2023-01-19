@@ -33,22 +33,24 @@ body {
   background-repeat: repeat-y;
   background-size: 150vw;
   background-position: center top;
-
 }
 
-.regle {
-  position: relative;
+.faction{
   border-radius: 20px;
+  border-color: #532e04;
+  border-style: solid;
+  background-color: beige;
+  padding: 15px;
+  opacity: 50%;
 }
-
-.regle .nom {
+.faction .regle {
+  position: relative;
+  padding-top: 10px;
+}
+.faction .regle .nom {
   font-family: bloodcrowi;
   font-size: medium;
-
 }
-
-.regle .description {
-  font-family: bloodcrow;
+.faction .regle .description {
   font-size: small;
-
 }

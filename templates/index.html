@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.22/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.15.22/dist/js/uikit-icons.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.15.22/dist/css/uikit.min.css" />
   <link rel="stylesheet" href="(( url_for('static', filename='style/style.css') ))" />
   <title>COGS : {% block title %}Bienvenue{% endblock %}</title>
   <script type="module">
@@ -17,20 +20,9 @@
           title: 'test'
         }
       },
-      methods: {
-        getData() {
-          axios.get('https://cogsband-1.papaoursnoob.repl.co/donnees')
-            .then(response => {
-              this.donnees = response.donnees;
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        }
-      },
       created() {
-        //fetch(API_URL).then(response => response.json()).then(donnees => { this.donnees = donnees })
-        this.getData()
+        fetch(API_URL).then(response => response.json()).then(donnees => { this.donnees = donnees })
+        //this.getData()
       }
     }).mount('#app')
   </script>
@@ -38,14 +30,33 @@
 
 <body>
   <div id="app">
-    <div v-for="donnee in donnees">
-      {{donnee['Nom']}}
-      <div v-for="regle in donnee['regle']" class="regle">
-        <div class="nom">{{regle['Nom']}} </div>
-        <div class="description">{{regle['Description']}}</div>
-
-
+    <div>
+      <ul class="uk-nav">
+        <li class="uk-active"><a href="">Accueil</a></li>
+        <li class="uk-parent"><a href="">Factions</a>
+          <ul class="uk-nav-sub">
+            <li v-for="faction in donnees['factions']" :key="faction['Nom']"><a href="">{{faction['Nom']}}</a></li>
+            <li><a href="">Régles Spéciales</a></li>
+          </ul>
+        </li>
+        <li><a href="">Héros</a></li>
+        <li><a href="">Equipements</a></li>
+        <li><a href="">Constructeur</a></li>
+      </ul>
+    </div>
+    <div v-for="faction in donnees.factions" class="faction">
+      {{faction.Nom}}
+      <div v-for="regle in faction.regle" class="regle">
+        <div class="nom">{{regle.Nom}} </div>
+        <div class="description">{{regle.Description}}</div>
       </div>
+      <div v-for="profils in faction.profils"> {{profils.carac.Nom}} </div>
+    </div>
+    <div>
+      <div v-for="equipements in donnees.equipements">{{equipements.Nom}}</div>
+    </div>
+    <div>
+      <div v-for="capacites in donnees.capacites">{{capacites.Nom}}</div>
     </div>
   </div>
 </body>
