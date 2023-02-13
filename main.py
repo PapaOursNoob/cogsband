@@ -24,10 +24,11 @@ def factions():
   return factions_data
 
 def cette_faction(faction_ID):
+  faction_data=[]
   faction_curseur = curseur.execute("SELECT * FROM Faction WHERE ID = (?)",faction_ID)
   faction_col = [col[0] for col in factions_curseur.description]
   faction_liste = faction_curseur.fetchone()
-  faction_data = dict(zip(faction_col,faction_liste))
+  faction_data.append(dict(zip(faction_col,faction_liste)))
   return faction_data
 
 # Regles spéciales de facion
@@ -164,9 +165,9 @@ def donnees():
 def faction():
   return json.JSONEncoder().encode(donnees_jeu['factions'])
 
-@app.route("/donnees/factions/<unefaction>")
+@app.route("/donnees/factions/<str:unefaction>")
 def lafaction(unefaction):
-  return json.JSONEncoder().encode(cette_faction(str(unefaction)))
+  return json.JSONEncoder().encode(cette_faction(unefaction))
 
 @app.route("/donnees/equipements")
 def equipement():
