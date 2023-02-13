@@ -164,12 +164,16 @@ def donnees():
 def faction():
   return json.JSONEncoder().encode(donnees_jeu['factions'])
 
-@app.route("/donnees/capacites")
-def faction():
-  return json.JSONEncoder().encode(donnees_jeu['capacites'])
+@app.route("/donnees/factions/<unefaction>")
+def lafaction(unefaction):
+  return json.JSONEncoder().encode(cette_faction(str(unefaction)))
 
 @app.route("/donnees/equipements")
-def faction():
+def equipement():
   return json.JSONEncoder().encode(donnees_jeu['equipements'])
+
+@app.route("/donnees/capacites")
+def capacite():
+  return json.JSONEncoder().encode(donnees_jeu['capacites'])
 
 app.run(host='0.0.0.0', port=81)
