@@ -1,4 +1,5 @@
-from flask import Flask,render_template,jsonify
+from flask import Flask,render_template
+import json
 import sqlite3
 
 app = Flask(__name__)
@@ -21,6 +22,13 @@ def factions():
     faction_dict = dict(zip(factions_col,faction))
     factions_data.append(faction_dict)
   return factions_data
+
+def cette_faction(faction_ID):
+  faction_curseur = curseur.execute("SELECT * FROM Faction WHERE ID = (?)",faction_ID)
+  faction_col = [col[0] for col in factions_curseur.description]
+  faction_liste = faction_curseur.fetchone()
+  faction_data = dict(zip(faction_col,faction_liste))
+  return faction_data
 
 # Regles spéciales de facion
 # format des données retournées :
@@ -150,6 +158,12 @@ def index():
 
 @app.route('/donnees')
 def donnees():
-  return jsonify(donnees_jeu)
+  return json.JSONEncoder().encode(donnees_jeu)
+
+@app.route("/donnees/<faction_ID>")
+def faction(faction_ID):
+  print (faction_ID)
+  #faction_donnees = cette_faction(str(faction_ID))
+  #return json.JSONEncoder().encode(faction_donnees)
 
 app.run(host='0.0.0.0', port=81)
