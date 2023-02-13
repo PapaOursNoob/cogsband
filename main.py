@@ -160,10 +160,16 @@ def index():
 def donnees():
   return json.JSONEncoder().encode(donnees_jeu)
 
-@app.route("/donnees/<faction_ID>")
-def faction(faction_ID):
-  print (faction_ID)
-  #faction_donnees = cette_faction(str(faction_ID))
-  #return json.JSONEncoder().encode(faction_donnees)
+@app.route("/donnees/factions")
+def faction():
+  return json.JSONEncoder().encode(donnees_jeu['factions'])
+
+@app.route("/donnees/capacites")
+def faction():
+  return json.JSONEncoder().encode(donnees_jeu['capacites'])
+
+@app.route("/donnees/equipements")
+def faction():
+  return json.JSONEncoder().encode(donnees_jeu['equipements'])
 
 app.run(host='0.0.0.0', port=81)
